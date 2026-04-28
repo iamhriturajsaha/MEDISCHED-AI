@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+pydantic
+pydantic-settings
+python-multipart
+websockets
+redis
+python-dotenv
+openai-whisper
+torch
+torchaudio
