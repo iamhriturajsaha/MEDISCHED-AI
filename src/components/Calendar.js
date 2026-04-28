@@ -20,18 +20,7 @@ const today = new Date().toISOString().split('T')[0];
 const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
 const dayAfter = new Date(Date.now() + 172800000).toISOString().split('T')[0];
 
-const INITIAL_APPOINTMENTS = [
-  { id: 1, name: 'John Doe', type: 'General Consultation', date: today, time: '09:00', duration: 60, status: 'confirmed', phone: '+1 (555) 234-5678', email: 'john.doe@email.com', notes: 'First visit. Complains of back pain.' },
-  { id: 2, name: 'Alice Smith', type: 'Follow-up', date: today, time: '10:00', duration: 30, status: 'pending', phone: '+1 (555) 876-5432', email: 'alice.s@email.com', notes: 'Post-surgery follow-up. Check wound healing.' },
-  { id: 3, name: 'Bob Johnson', type: 'X-Ray Imaging', date: today, time: '11:00', duration: 30, status: 'confirmed', phone: '+1 (555) 111-2233', email: 'bob.j@email.com', notes: 'Left knee x-ray ordered by Dr. Patel.' },
-  { id: 4, name: 'Maria Garcia', type: 'Blood Test / Phlebotomy', date: today, time: '13:00', duration: 15, status: 'confirmed', phone: '+1 (555) 444-5566', email: 'maria.g@email.com', notes: 'Routine CBC and lipid panel.' },
-  { id: 5, name: 'James Wilson', type: 'Physiotherapy', date: today, time: '14:00', duration: 60, status: 'pending', phone: '+1 (555) 777-8899', email: 'j.wilson@email.com', notes: 'Shoulder rehab session #4.' },
-  { id: 6, name: 'Sarah Lee', type: 'Dental Checkup', date: today, time: '15:00', duration: 30, status: 'confirmed', phone: '+1 (555) 999-0011', email: 'sarah.lee@email.com', notes: 'Annual dental cleaning.' },
-  { id: 7, name: 'David Chen', type: 'MRI Scan', date: tomorrow, time: '09:00', duration: 90, status: 'confirmed', phone: '+1 (555) 222-3344', email: 'd.chen@email.com', notes: 'Brain MRI. Claustrophobia — sedate if needed.' },
-  { id: 8, name: 'Emily Brown', type: 'Vaccination', date: tomorrow, time: '11:00', duration: 15, status: 'pending', phone: '+1 (555) 555-6677', email: 'emily.b@email.com', notes: 'Flu shot + COVID booster.' },
-  { id: 9, name: 'Michael Torres', type: 'Specialist Visit', date: dayAfter, time: '10:00', duration: 60, status: 'confirmed', phone: '+1 (555) 888-9900', email: 'm.torres@email.com', notes: 'Cardiology consult. History of arrhythmia.' },
-  { id: 10, name: 'Lisa Anderson', type: 'Ultrasound', date: dayAfter, time: '14:00', duration: 45, status: 'confirmed', phone: '+1 (555) 333-4455', email: 'lisa.a@email.com', notes: 'Abdominal ultrasound. Fasting required.' },
-];
+const INITIAL_APPOINTMENTS = [];
 
 function generateTimeSlots() {
   const slots = [];
@@ -47,7 +36,7 @@ const TIME_SLOTS = generateTimeSlots();
 export default function Calendar() {
   const [view, setView] = useState('Daily');
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [appointments, setAppointments] = useState(INITIAL_APPOINTMENTS);
+  const [appointments, setAppointments] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -98,8 +87,7 @@ export default function Calendar() {
         const response = await fetch(`http://127.0.0.1:8080/api/appointments?email=${user.email || ''}`);
         if (response.ok) {
           const data = await response.json();
-          // Fallback to initial if DB is empty for a better first experience
-          setAppointments(data.length > 0 ? data : INITIAL_APPOINTMENTS);
+          setAppointments(data);
         }
       } catch (e) {
         console.error("Error fetching appointments:", e);
@@ -504,6 +492,7 @@ export default function Calendar() {
         )}
 
       </motion.div>
+
 
       {/* Patient Detail Sidebar */}
       <AnimatePresence>
