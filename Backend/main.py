@@ -14,10 +14,15 @@ load_dotenv()
 TWILIO_SID = os.getenv("TWILIO_ACCOUNT_SID")
 TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
 TWILIO_PHONE = os.getenv("TWILIO_PHONE_NUMBER")
+TWILIO_MODE = os.getenv("TWILIO_MODE", "real").lower()
 
 try:
     from twilio.rest import Client as TwilioClient
-    twilio_client = TwilioClient(TWILIO_SID, TWILIO_AUTH_TOKEN)
+    if TWILIO_MODE == "simulation" or not TWILIO_SID or not TWILIO_AUTH_TOKEN:
+        twilio_client = None
+        print("Twilio simulation mode active or credentials missing. Real calls will be simulated.")
+    else:
+        twilio_client = TwilioClient(TWILIO_SID, TWILIO_AUTH_TOKEN)
 except ImportError:
     twilio_client = None
     print("WARNING: 'twilio' package not installed. Real calls will be simulated.")
@@ -187,10 +192,7 @@ async def delete_queue_item(item_id: int, db: Session = Depends(get_db)):
 
 @app.get("/api/appointments")
 async def get_appointments(email: str = None, db: Session = Depends(get_db)):
-    query = db.query(models.Appointment)
-    if email:
-        query = query.filter(models.Appointment.user_email == email)
-    return query.all()
+    return db.query(models.Appointment).all()
 
 @app.post("/api/appointments")
 async def create_appointment(appt: dict, db: Session = Depends(get_db)):
@@ -277,6 +279,11 @@ async def initiate_call(call_data: dict):
             }
         except Exception as e:
             print(f"Twilio Error: {e}")
+            if "unverified" in str(e).lower():
+                return {
+                    "status": "error", 
+                    "message": f"Twilio failed: The number {target_phone} is unverified. Trial accounts may only make calls to verified numbers. You can verify this number in your Twilio Console or set TWILIO_MODE=simulation in your .env to use simulation mode."
+                }
             return {"status": "error", "message": f"Twilio failed: {str(e)}"}
     
     # 2. Fallback to simulation
