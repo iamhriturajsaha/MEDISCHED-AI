@@ -16,9 +16,17 @@ const SERVICES = {
   'Follow-up': { duration: 30, color: '#ff9f0a' },
 };
 
-const today = new Date().toISOString().split('T')[0];
-const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
-const dayAfter = new Date(Date.now() + 172800000).toISOString().split('T')[0];
+const formatDateLocal = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+const today = formatDateLocal(new Date());
+const tomorrow = formatDateLocal(new Date(Date.now() + 86400000));
+const dayAfter = formatDateLocal(new Date(Date.now() + 172800000));
+
 
 const INITIAL_APPOINTMENTS = [];
 
@@ -45,7 +53,7 @@ export default function Calendar() {
   const [editingNotes, setEditingNotes] = useState(false);
   const [tempNotes, setTempNotes] = useState('');
 
-  const currentDateStr = currentDate.toISOString().split('T')[0];
+  const currentDateStr = formatDateLocal(currentDate);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -412,9 +420,9 @@ export default function Calendar() {
         {view === 'Weekly' && (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '12px', flex: 1, overflowY: 'auto' }}>
             {weekDates.map((date, i) => {
-              const dayStr = date.toISOString().split('T')[0];
+              const dayStr = formatDateLocal(date);
               const dayAppts = appointments.filter(a => a.date === dayStr).sort((a,b) => parseTime(a.time) - parseTime(b.time));
-              const isToday = dayStr === new Date().toISOString().split('T')[0];
+              const isToday = dayStr === formatDateLocal(new Date());
 
               return (
                 <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '8px', borderRight: i < 6 ? '2px solid var(--glass-border)' : 'none', paddingRight: i < 6 ? '12px' : '0' }}>
@@ -454,9 +462,9 @@ export default function Calendar() {
               {monthData.map((date, i) => {
                 if (!date) return <div key={i} style={{ background: 'rgba(0,0,0,0.2)', borderRadius: '8px' }}></div>;
                 
-                const dayStr = date.toISOString().split('T')[0];
+                const dayStr = formatDateLocal(date);
                 const dayAppts = appointments.filter(a => a.date === dayStr);
-                const isToday = dayStr === new Date().toISOString().split('T')[0];
+                const isToday = dayStr === formatDateLocal(new Date());
 
                 return (
                   <div 
