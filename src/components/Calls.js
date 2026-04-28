@@ -194,6 +194,15 @@ export default function Calls() {
       setTimeout(() => setNotification(null), 5000);
       return;
     }
+
+    // Time Restriction (8 AM to 6 PM)
+    if (twilioForm.bookAppointment) {
+      if (!twilioForm.apptTime || twilioForm.apptTime < '08:00' || twilioForm.apptTime > '18:00') {
+        setNotification({ message: 'Please select a time between 8 AM and 6 PM.', type: 'error' });
+        setTimeout(() => setNotification(null), 5000);
+        return;
+      }
+    }
     
     setIsCalling(true);
     try {
@@ -242,7 +251,10 @@ export default function Calls() {
         setNotification({ message: `Queue Saved, but Call Failed: ${data.message}`, type: 'error' });
         setTimeout(() => setNotification(null), 8000);
       } else {
-        setNotification({ message: `Success! Appointment saved and call initiated.`, type: 'success' });
+        const msg = twilioForm.bookAppointment 
+          ? 'Success! Appointment saved and call initiated.' 
+          : 'Success! Call initiated.';
+        setNotification({ message: msg, type: 'success' });
         setTimeout(() => setNotification(null), 5000);
       }
 
@@ -279,6 +291,15 @@ export default function Calls() {
       setNotification({ message: 'Invalid phone number. Please enter a valid format.', type: 'error' });
       setTimeout(() => setNotification(null), 5000);
       return;
+    }
+
+    // Time Restriction (8 AM to 6 PM)
+    if (twilioForm.bookAppointment) {
+      if (!twilioForm.apptTime || twilioForm.apptTime < '08:00' || twilioForm.apptTime > '18:00') {
+        setNotification({ message: 'Please select a time between 8 AM and 6 PM.', type: 'error' });
+        setTimeout(() => setNotification(null), 5000);
+        return;
+      }
     }
 
     setIsCalling(true);
@@ -496,6 +517,8 @@ export default function Calls() {
                       <input 
                         required={twilioForm.bookAppointment}
                         type="time" 
+                        min="08:00"
+                        max="18:00"
                         value={twilioForm.apptTime}
                         onChange={(e) => setTwilioForm({...twilioForm, apptTime: e.target.value})}
                         style={{ width: '100%', background: 'rgba(0,0,0,0.4)', border: '3px solid var(--glass-border)', borderRadius: '12px', padding: '14px', color: 'white', fontSize: '15px' }} 
