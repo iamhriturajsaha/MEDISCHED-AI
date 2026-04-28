@@ -16,6 +16,7 @@ MediSched AI is an advanced, end-to-end healthcare orchestration portal designed
   <img src="Images/11.png" alt="11" width="1000"/><br>
   <img src="Images/12.png" alt="12" width="1000"/><br>
   <img src="Images/13.png" alt="13" width="1000"/><br>
+  <img src="Images/14.png" alt="14" width="1000"/><br>
 </p>
 
 ## 🌟 Key Subsystems & Features
