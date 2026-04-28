@@ -176,7 +176,7 @@ export default function Patients() {
             age: p.age || 30,
             diagnosis: p.diagnosis || "N/A",
             treatment: p.treatment || "N/A",
-            lastVisit: p.lastVisit || new Date().toISOString().split('T')[0],
+            lastVisit: p.lastVisit || `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`,
             billing: {
               total: p.billing?.total || "$0",
               paid: p.billing?.paid || "$0",
@@ -195,7 +195,7 @@ export default function Patients() {
             age: p.age || 30,
             diagnosis: p.diagnosis || "N/A",
             treatment: p.treatment || "N/A",
-            lastVisit: p.lastVisit || new Date().toISOString().split('T')[0],
+            lastVisit: p.lastVisit || `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${String(new Date().getDate()).padStart(2, '0')}`,
             billing: {
               total: p.billing?.total || "$0",
               paid: p.billing?.paid || "$0",
