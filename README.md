@@ -49,8 +49,7 @@ MediSched AI is an advanced, end-to-end healthcare orchestration portal designed
    ```bash
    cd backend
    ```
-3. Create a robust local environment configuration -
-   * Generate a new `.env` file mapping -
+3. Create a `.env` file in both the Root directory and the Backend directory -
      ```env
      OPENAI_API_KEY=your_key_here
      TWILIO_ACCOUNT_SID=your_sid_here
