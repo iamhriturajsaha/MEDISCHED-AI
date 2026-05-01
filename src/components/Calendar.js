@@ -161,6 +161,8 @@ export default function Calendar() {
   };
 
   const handleDelete = async (id) => {
+    const proceed = window.confirm("Are you sure you want to cancel this appointment? This action cannot be undone.");
+    if (!proceed) return;
     try {
       const response = await fetch(`http://127.0.0.1:8080/api/appointments/${id}`, { method: 'DELETE' });
       if (response.ok) {
@@ -717,7 +719,7 @@ function AppointmentCard({ appointment, onRemind, onDelete, onToggleStatus, onSe
         </div>
         <div style={{ display: 'flex', gap: '8px' }}>
           <button 
-            onClick={onRemind}
+            onClick={(e) => { e.stopPropagation(); onRemind(); }}
             title="Send SMS/Email Reminder"
             style={{ padding: '8px', background: 'var(--glass-bg)', borderRadius: '8px', color: 'var(--text-primary)', border: '2px solid var(--glass-border)', cursor: 'pointer', transition: 'all 0.2s' }}
             onMouseEnter={(e) => e.currentTarget.style.background = 'var(--glass-hover)'}
@@ -726,7 +728,7 @@ function AppointmentCard({ appointment, onRemind, onDelete, onToggleStatus, onSe
             <Send size={14} />
           </button>
           <button 
-            onClick={onDelete}
+            onClick={(e) => { e.stopPropagation(); onDelete(); }}
             title="Cancel Appointment"
             style={{ padding: '8px', background: 'var(--glass-bg)', borderRadius: '8px', color: 'var(--danger)', border: '2px solid var(--glass-border)', cursor: 'pointer', transition: 'all 0.2s' }}
             onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,69,58,0.1)'}
