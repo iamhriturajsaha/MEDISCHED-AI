@@ -52,9 +52,11 @@ MediSched AI is an advanced, end-to-end healthcare orchestration portal designed
 3. Create a robust local environment configuration -
    * Generate a new `.env` file mapping -
      ```env
+     OPENAI_API_KEY=your_key_here
      TWILIO_ACCOUNT_SID=your_sid_here
      TWILIO_AUTH_TOKEN=your_token_here
      TWILIO_PHONE_NUMBER=your_phone_here
+     TWILIO_MODE=real
      ```
 4. Install the Python dependencies -
    ```bash
