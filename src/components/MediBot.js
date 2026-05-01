@@ -1,7 +1,7 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, Bot, User } from 'lucide-react';
+import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
 
 export default function MediBot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -83,7 +83,7 @@ export default function MediBot() {
           >
             {/* Header */}
             <div style={{ padding: '24px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderBottom: '1px solid rgba(0,0,0,0.1)', position: 'relative', height: '160px', width: '100%', flexShrink: 0 }}>
-              <button onClick={() => setIsOpen(false)} style={{ position: 'absolute', top: '16px', right: '16px', color: '#1C1C1E', zIndex: 10, background: 'none', border: 'none', cursor: 'pointer' }}>
+              <button onClick={() => setIsOpen(false)} style={{ position: 'absolute', top: '16px', right: '16px', color: '#1C1C1E', zIndex: 10 }}>
                 <X size={24} />
               </button>
               
@@ -247,8 +247,7 @@ export default function MediBot() {
                   alignItems: 'center',
                   justifyContent: 'center',
                   cursor: 'pointer',
-                  opacity: isLoading ? 0.5 : 1,
-                  border: 'none'
+                  opacity: isLoading ? 0.5 : 1
                 }}
               >
                 <Send size={20} />
