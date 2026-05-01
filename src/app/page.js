@@ -15,6 +15,7 @@ import Patients from '@/components/Patients';
 import Footer from '@/components/Footer';
 import { LegalDocs } from '@/components/LegalDocs';
 import { LayoutDashboard, Calendar as CalendarIcon, Phone, FileText, Settings as SettingsIcon, LogOut, Home, HelpCircle, Pill, Activity, Stethoscope, Heart, Mail, User as UserIcon } from 'lucide-react';
+import MediBot from '@/components/MediBot';
 
 export default function SinglePageApp() {
   const [activeTab, setActiveTab] = useState('home');
@@ -320,6 +321,8 @@ export default function SinglePageApp() {
       <div style={{ width: '100%', maxWidth: activeTab === 'home' ? '100%' : '1440px', margin: '0 auto', padding: activeTab === 'home' ? 0 : '0 48px' }}>
         {activeTab !== 'home' && <Footer setActiveTab={setActiveTab} />}
       </div>
+      
+      {activeTab !== 'home' && <MediBot />}
 
     </div>
   );
