@@ -12,3 +12,4 @@ torch
 torchaudio                  
 python-dotenv               
 openai
+twilio
