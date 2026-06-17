@@ -34,7 +34,7 @@ export default function AuthWrapper({ children }) {
     try {
       if (isLogin) {
         // 1. Fetch user from backend
-        const response = await fetch(`http://127.0.0.1:8080/api/user/${form.email}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/user/${form.email}`);
         if (response.ok) {
           const user = await response.json();
           // For simplicity in this demo, we check password client-side if returned
@@ -59,7 +59,7 @@ export default function AuthWrapper({ children }) {
           enable_notifications: true 
         };
         
-        const response = await fetch('http://127.0.0.1:8080/api/user', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/user`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(newUser)

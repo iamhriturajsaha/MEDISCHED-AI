@@ -140,7 +140,7 @@ export default function Calls() {
     const syncQueue = async () => {
       try {
         const user = JSON.parse(localStorage.getItem('aura_session') || '{}');
-        const response = await fetch(`http://127.0.0.1:8080/api/queue?email=${user.email || ''}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/queue?email=${user.email || ''}`);
         if (response.ok) {
           const data = await response.json();
           setQueue(data);
@@ -159,7 +159,7 @@ export default function Calls() {
     const syncData = async () => {
       if (isPaused) return;
       try {
-        const response = await fetch('http://127.0.0.1:8080/api/logs');
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/logs`);
         if (response.ok) {
           const data = await response.json();
           // Transform backend logs to history format
@@ -209,7 +209,7 @@ export default function Calls() {
       const user = JSON.parse(localStorage.getItem('aura_session') || '{}');
 
       if (twilioForm.bookAppointment) {
-        await fetch('http://127.0.0.1:8080/api/appointments', {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/appointments`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -225,7 +225,7 @@ export default function Calls() {
         });
       }
 
-      const queueResponse = await fetch('http://127.0.0.1:8080/api/queue', {
+      const queueResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/queue`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -240,7 +240,7 @@ export default function Calls() {
       if (!queueResponse.ok) throw new Error('Failed to save to queue');
 
       // 2. Real Twilio Call (if applicable)
-      const response = await fetch('http://127.0.0.1:8080/api/call', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/call`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: twilioForm.name, phone: twilioForm.phone, purpose: twilioForm.purpose })
@@ -260,7 +260,7 @@ export default function Calls() {
 
       // 3. Save Log
       const durationStr = `${Math.floor(Math.random() * 3) + 1}m ${Math.floor(Math.random() * 60)}s`;
-      await fetch('http://127.0.0.1:8080/api/logs', {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/logs`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -307,7 +307,7 @@ export default function Calls() {
       const user = JSON.parse(localStorage.getItem('aura_session') || '{}');
 
       if (twilioForm.bookAppointment) {
-        await fetch('http://127.0.0.1:8080/api/appointments', {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/appointments`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -323,7 +323,7 @@ export default function Calls() {
         });
       }
 
-      await fetch('http://127.0.0.1:8080/api/queue', {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/queue`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -586,7 +586,7 @@ export default function Calls() {
                   <button 
                     onClick={async () => {
                       if (confirm('Cancel this appointment?')) {
-                        const response = await fetch(`http://127.0.0.1:8080/api/queue/${q.id}`, { method: 'DELETE' });
+                        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/queue/${q.id}`, { method: 'DELETE' });
                         if (response.ok) {
                           setNotification({ message: 'Appointment cancelled successfully', type: 'success' });
                           setTimeout(() => setNotification(null), 3000);
@@ -630,7 +630,7 @@ export default function Calls() {
                   <button 
                     onClick={async () => {
                       if (h.id && confirm('Delete this record?')) {
-                        const response = await fetch(`http://127.0.0.1:8080/api/logs/${h.id}`, { method: 'DELETE' });
+                        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/logs/${h.id}`, { method: 'DELETE' });
                         if (response.ok) {
                           setNotification({ message: 'Call record deleted from database', type: 'success' });
                           setTimeout(() => setNotification(null), 3000);

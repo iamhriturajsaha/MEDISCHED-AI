@@ -92,7 +92,7 @@ export default function Calendar() {
     const fetchAppts = async () => {
       try {
         const user = JSON.parse(localStorage.getItem('aura_session') || '{}');
-        const response = await fetch(`http://127.0.0.1:8080/api/appointments?email=${user.email || ''}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/appointments?email=${user.email || ''}`);
         if (response.ok) {
           const data = await response.json();
           setAppointments(data);
@@ -143,7 +143,7 @@ export default function Calendar() {
     };
 
     try {
-      const response = await fetch('http://127.0.0.1:8080/api/appointments', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/appointments`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newAppt)
@@ -164,7 +164,7 @@ export default function Calendar() {
     const proceed = window.confirm("Are you sure you want to cancel this appointment? This action cannot be undone.");
     if (!proceed) return;
     try {
-      const response = await fetch(`http://127.0.0.1:8080/api/appointments/${id}`, { method: 'DELETE' });
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/appointments/${id}`, { method: 'DELETE' });
       if (response.ok) {
         setAppointments(appointments.filter(a => a.id !== id));
         if (selectedAppt?.id === id) setSelectedAppt(null);
@@ -181,7 +181,7 @@ export default function Calendar() {
       const appt = appointments.find(a => a.name === patientName);
       const phone = appt?.phone || "+1 (555) 000-0000";
 
-      await fetch('http://127.0.0.1:8080/api/calls', {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/calls`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -202,7 +202,7 @@ export default function Calendar() {
     const nextStatus = appt.status === 'confirmed' ? 'pending' : 'confirmed';
     
     try {
-      const response = await fetch(`http://127.0.0.1:8080/api/appointments/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/appointments/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: nextStatus })
@@ -219,7 +219,7 @@ export default function Calendar() {
 
   const handleSaveNotes = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8080/api/appointments/${selectedAppt.id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/appointments/${selectedAppt.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ notes: tempNotes })

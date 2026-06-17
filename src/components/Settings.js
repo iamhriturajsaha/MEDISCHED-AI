@@ -49,7 +49,7 @@ export default function Settings() {
         if (stored) {
           try {
             const { email } = JSON.parse(stored);
-            const response = await fetch(`http://127.0.0.1:8080/api/user/${email}`);
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/user/${email}`);
             if (response.ok) {
               const data = await response.json();
               if (data) {
@@ -86,7 +86,7 @@ export default function Settings() {
         enable_notifications: account.enableNotifications
       };
       
-      const response = await fetch('http://127.0.0.1:8080/api/user', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/user`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

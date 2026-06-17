@@ -39,7 +39,7 @@ export default function Logs() {
   useEffect(() => {
     const fetchLogs = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8080/api/logs');
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/logs`);
         const data = await response.json();
         setLogsList(data);
         if (data.length > 0) setSelectedLog(data[0]);
@@ -198,7 +198,7 @@ export default function Logs() {
     if (!confirm('Are you sure you want to delete this log?')) return;
     
     try {
-      const response = await fetch(`http://127.0.0.1:8080/api/logs/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8080"}/api/logs/${id}`, {
         method: 'DELETE'
       });
       if (response.ok) {

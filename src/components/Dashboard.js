@@ -80,7 +80,9 @@ export default function Dashboard() {
       }
 
       console.log('Attempting WebSocket connection...');
-      const socket = new WebSocket('ws://localhost:8080/ws/metrics');
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+      const wsUrl = baseUrl.replace(/^http/, 'ws');
+      const socket = new WebSocket(`${wsUrl}/ws/metrics`);
       socketRef.current = socket;
       
       socket.onopen = () => {
