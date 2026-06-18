@@ -32,7 +32,7 @@ MediSched AI is an advanced, end-to-end healthcare orchestration portal designed
 * **OpenAI Whisper Integration -** Prepared to transcribe outgoing/incoming call metrics and process advanced diagnostic routing efficiently.
 
 ### 📅 3. High-Fidelity Calendar & Queue Manager
-* **Shift Scheduling -** Allows rapid booking, modification, and conflict assessments for complex medical procedure mappings.
+* **Shift Scheduling -** Allows rapid booking, modification and conflict assessments for complex medical procedure mappings.
 * **Live Backlog Persistence -** Maintains an automated retry configuration mapping against critical medication reviews, vaccine deployments and general lab referrals.
 
 ## 🛠️ The Technology Stack
@@ -89,7 +89,7 @@ MediSched AI is an advanced, end-to-end healthcare orchestration portal designed
 - Create a New Web Service and connect your GitHub repository.
 - Name it `medisched-backend`.
 - **CRITICAL -** Set the Root Directory to `Backend`.
-- Add Environment Variables:
+- Add Environment Variables -
   - `OPENAI_API_KEY`
   - `TWILIO_ACCOUNT_SID`
   - `TWILIO_AUTH_TOKEN`
