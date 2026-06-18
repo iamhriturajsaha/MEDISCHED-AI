@@ -36,14 +36,21 @@ export default function MediBot() {
         body: JSON.stringify({ messages: [...messages, userMessage] }),
       });
 
-      const data = await response.json();
-      if (data.message) {
+      let data;
+      try {
+        data = await response.json();
+      } catch (e) {
+        throw new Error('Invalid response from server. Check backend configuration.');
+      }
+
+      if (response.ok && data.message) {
         setMessages(prev => [...prev, { role: 'assistant', content: data.message }]);
       } else {
-        setMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, I encountered an error. Please try again.' }]);
+        const errorMsg = data.error || 'Sorry, I encountered an error. Please try again.';
+        setMessages(prev => [...prev, { role: 'assistant', content: errorMsg }]);
       }
     } catch (error) {
-      setMessages(prev => [...prev, { role: 'assistant', content: 'Network error. Please check your connection.' }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: error.message === 'Failed to fetch' ? 'Network error. Please check your connection.' : error.message }]);
     } finally {
       setIsLoading(false);
     }
