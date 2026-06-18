@@ -79,6 +79,31 @@ MediSched AI is an advanced, end-to-end healthcare orchestration portal designed
    npm run dev
    ```
 
+### Phase C - Deployment on Render
+**1. Setup Postgres Database (Optional but Recommended)**
+- On the Render Dashboard, create a **New PostgreSQL** database.
+- Name it (e.g., `medisched-db`), choose your region, and select the Free tier.
+- Once created, copy the **Internal Database URL** from the Connections section.
+
+**2. Deploy Backend (FastAPI)**
+- Create a **New Web Service** and connect your GitHub repository.
+- Name it `medisched-backend`.
+- **CRITICAL:** Set the **Root Directory** to `Backend` (with a capital 'B').
+- Set Environment to `Docker`.
+- Add Environment Variables:
+  - `OPENAI_API_KEY`, `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_PHONE_NUMBER`, `TWILIO_MODE`
+  - `DATABASE_URL`: Set this to your Internal Database URL.
+- Deploy and copy the resulting backend URL.
+
+**3. Deploy Frontend (Next.js)**
+- Create another **New Web Service** connected to the same repository.
+- Name it `medisched-frontend`.
+- Leave the **Root Directory** entirely **blank**.
+- Set Environment to `Docker`.
+- Add Environment Variable:
+  - `NEXT_PUBLIC_API_URL`: Set this to your copied backend URL (e.g., `https://medisched-backend-xxx.onrender.com`).
+- Deploy!
+
 ## 🧠 Architectural Challenges Overcome
 * **Asynchronous WebSocket Pipelines -** Guaranteeing minimal UI redraw flickering while processing large relational data calculations efficiently across the active SQLAlchemy bindings.
 * **Fallback Simulation Paradigms -** Structuring clean interceptor nodes that cleanly split live production protocols from simulated development scripts gracefully.
