@@ -1,8 +1,6 @@
 # 🏥MediSched AI
 MediSched AI is an advanced, end-to-end healthcare orchestration portal designed to bridge operational overhead thresholds seamlessly. By merging intuitive administrative control panels with real-time backend automation, MediSched AI optimizes patient workflow protocols, streamlines clinical outbound communication pipelines and integrates localized data streams effectively.
 
-🌐 **Live Demo** → https://medisched-rwzr.onrender.com
-
 ## 🌌 Quick Glance
 <p align="center">
   <img src="Images/1.png" alt="1" width="1000"/><br>
